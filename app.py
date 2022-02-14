@@ -4,7 +4,7 @@ from database.db import initialize_db
 from resources.routes import initialize_routes
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
-from flask_migrate import Migrate
+
 
 app = Flask(__name__)
 app.config.from_envvar('ENV_FILE_LOCATION')
