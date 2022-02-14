@@ -16,7 +16,7 @@ class User(db.Model):
     # username = db.Column(db.String, unique=True, nullable=False)
     email = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String, nullable=False)
-#     films = db.relationship("Film", backref='user')
+    films = db.relationship("Film", backref='user')
 #     api_key = db.Column(db.String)
 
     def __init__(self, email, password) -> None:
@@ -39,19 +39,22 @@ class Film(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
     date = db.Column(db.Date)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     def to_json(self):
         json_student = {
-            'id': self.id,
-            'title': self.title,
-            'date': self.date,
+            'id': str(self.id),
+            'title': str(self.title),
+            'date': str(self.date),
+            'user_id': str(self.user_id)
         }
 
         return json_student
+   
+
     # describe = db.Column(db.Text)
     # rating = db.Column(db.Float)
     # poster_path = db.Column(db.String)
-    # user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    # genre = db.relationship('Genre', secondary=FilmGenre)
+        # genre = db.relationship('Genre', secondary=FilmGenre)
 
 
 # class Genre(db.Model):
