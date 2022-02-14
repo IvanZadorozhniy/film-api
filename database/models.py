@@ -28,10 +28,10 @@ class User(db.Model):
 #     def __repr__(self):
 #         return '{} {} {} {}'.format(self.id, self.username, self.email, self.api_key)
     def hash_password(self):
-       self.password = generate_password_hash(self.password).decode('utf8')
- 
+        self.password = generate_password_hash(self.password).decode('utf8')
+
     def check_password(self, password):
-       return check_password_hash(self.password, password)
+        return check_password_hash(self.password, password)
 
 
 class Film(db.Model):
@@ -40,6 +40,7 @@ class Film(db.Model):
     title = db.Column(db.String, nullable=False)
     date = db.Column(db.Date)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
     def to_json(self):
         json_student = {
             'id': str(self.id),
@@ -49,7 +50,6 @@ class Film(db.Model):
         }
 
         return json_student
-   
 
     # describe = db.Column(db.Text)
     # rating = db.Column(db.Float)
@@ -68,6 +68,3 @@ class Film(db.Model):
 #     id = db.Column(db.Integer, primary_key=True)
 #     name = db.Column(db.String)
 #     last_name = db.Column(db.String)
-
-
-

@@ -9,6 +9,8 @@ from jwt.exceptions import ExpiredSignatureError, DecodeError, \
     InvalidTokenError
 from services.mail_service import send_email
 from database.db import db_session
+
+
 class ForgotPassword(Resource):
     def post(self):
         url = request.host_url + 'api/auth/reset/'
@@ -25,11 +27,11 @@ class ForgotPassword(Resource):
         reset_token = create_access_token(str(user.id), expires_delta=expires)
 
         return send_email('[Movie-bag] Reset Your Password',
-                            sender='support@movie-bag.com',
-                            recipients=[user.email],
-                            text_body=render_template('email/reset_password.txt',
+                          sender='support@movie-bag.com',
+                          recipients=[user.email],
+                          text_body=render_template('email/reset_password.txt',
                                                     url=url + reset_token),
-                            html_body=render_template('email/reset_password.html',
+                          html_body=render_template('email/reset_password.html',
                                                     url=url + reset_token))
 
 
@@ -53,8 +55,7 @@ class ResetPassword(Resource):
         db_session.flush()
 
         return send_email('[Movie-bag] Password reset successful',
-                            sender='support@movie-bag.com',
-                            recipients=[user.email],
-                            text_body='Password reset was successful',
-                            html_body='<p>Password reset was successful</p>')
-
+                          sender='support@movie-bag.com',
+                          recipients=[user.email],
+                          text_body='Password reset was successful',
+                          html_body='<p>Password reset was successful</p>')

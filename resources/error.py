@@ -37,8 +37,10 @@ class EmailDoesnotExistsError(Exception):
 class BadTokenError(Exception):
     pass
 
+
 class ExpiredTokenError(Exception):
     pass
+
 
 errors = {
     "InternalServerError": {
