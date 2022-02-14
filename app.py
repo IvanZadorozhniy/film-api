@@ -1,9 +1,11 @@
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from database.db import initialize_db
-from resources.routes import initialize_routes
+
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
+from flask_mail import Mail
+
 from resources.error import errors
 
 
@@ -19,11 +21,9 @@ app.config['UPLOAD_FOLDER'] = 'database/upload_posters'
 api = Api(app, errors=errors)
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
-
-
+mail = Mail(app)
+from resources.routes import initialize_routes
 
 db_session = initialize_db(app=app)
 initialize_routes(api)
 
-
-app.run()
