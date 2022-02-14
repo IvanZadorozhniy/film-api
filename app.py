@@ -1,10 +1,12 @@
 from flask import Flask
+from flask_bcrypt import Bcrypt
 from database.db import initialize_db
 from resources.routes import initialize_routes
 from flask_restful import Api
 
 app = Flask(__name__)
 api = Api(app)
+bcrypt = Bcrypt(app)
 app.config['DATABASE'] = "DB.sqlite"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/DB.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
