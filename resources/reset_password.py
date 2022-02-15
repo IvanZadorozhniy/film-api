@@ -1,14 +1,14 @@
-from flask import request, render_template
-from flask_jwt_extended import create_access_token, decode_token
-from database.models import User
-from flask_restful import Resource
 import datetime
-from resources.error import SchemaValidationError, InternalServerError, \
-    EmailDoesnotExistsError, BadTokenError, ExpiredTokenError
-from jwt.exceptions import ExpiredSignatureError, DecodeError, \
-    InvalidTokenError
-from services.mail_service import send_email
+
 from database.db import db_session
+from database.models import User
+from flask import render_template, request
+from flask_jwt_extended import create_access_token, decode_token
+from flask_restful import Resource
+from services.mail_service import send_email
+
+from resources.error import (EmailDoesnotExistsError,
+                             SchemaValidationError)
 
 
 class ForgotPassword(Resource):
@@ -37,7 +37,6 @@ class ForgotPassword(Resource):
 
 class ResetPassword(Resource):
     def post(self):
-        url = request.host_url + 'api/auth/reset/'
 
         body = request.get_json()
         reset_token = body.get('reset_token')

@@ -1,8 +1,8 @@
 from threading import Thread
+
+from app import app, mail
 from flask_mail import Message
 from resources.error import InternalServerError
-from app import app
-from app import mail
 
 
 def send_async_email(app, msg):

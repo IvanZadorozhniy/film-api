@@ -5,7 +5,8 @@ import json
 
 from app import app
 from database import db
-from database.models import User
+
+
 class SignupTest(unittest.TestCase):
 
     def setUp(self):
@@ -20,7 +21,8 @@ class SignupTest(unittest.TestCase):
         })
 
         # When
-        response = self.app.post('/api/auth/signup', headers={"Content-Type": "application/json"}, data=payload)
+        response = self.app.post(
+            '/api/auth/signup', headers={"Content-Type": "application/json"}, data=payload)
 
         # Then
         self.assertEqual(str, type(response.json['id']))
@@ -28,6 +30,6 @@ class SignupTest(unittest.TestCase):
 
     def tearDown(self):
         with app.app_context():
-        
+
             self.db.session.remove()
             self.db.drop_all()
