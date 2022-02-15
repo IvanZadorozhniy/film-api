@@ -11,8 +11,6 @@ from resources.error import errors
 
 app = Flask(__name__)
 app.config.from_envvar('ENV_FILE_LOCATION')
-# app.config['DATABASE'] = "DB.sqlite"    
-# app.config['SQLALCHEMY_DATABASE_URI'] = DB
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_BINDS'] = []
 app.config['CSRF_ENABLED'] = True
