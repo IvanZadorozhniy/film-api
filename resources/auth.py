@@ -1,15 +1,23 @@
-from flask import request
+from flask import Response, request, jsonify
 from database.models import User
 from flask_restful import Resource
 from database.db import db_session
 from flask_jwt_extended import create_access_token
 import datetime
 
-
 class SignupApi(Resource):
+
     def post(self):
+        """post Create user and store it in database .
+
+        Returns:
+            [type]: [description]
+        """
         body = request.get_json()
+        
         user = User(**body)
+        if not user.check_valid_email():
+            return {"error": "Email is not valie"}, 400
         user.hash_password()
         db_session.add(user)
         db_session.commit()
@@ -19,6 +27,11 @@ class SignupApi(Resource):
 
 
 class LoginApi(Resource):
+    """LoginApi Classmethod to create a LoginApi class .
+
+    Args:
+        Resource ([type]): [description]
+    """
     def post(self):
         body = request.get_json()
         user = User.query.filter(User.email.like(body.get('email'))).first()
@@ -30,3 +43,5 @@ class LoginApi(Resource):
         access_token = create_access_token(
             identity=str(user.id), expires_delta=expires)
         return {'token': access_token}, 200
+
+   

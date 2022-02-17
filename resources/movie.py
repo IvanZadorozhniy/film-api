@@ -13,6 +13,11 @@ from resources.error import (DeletingMovieError, InternalServerError,
 
 
 class MoviesApi(Resource):
+    """MoviesApi A class method to create a MoviesApi class .
+
+    Args:
+        Resource ([type]): [description]
+    """
     def get(self):
         movies = Film.query.all()
         movies = list(map(lambda x: x.to_json(), movies))
@@ -45,6 +50,24 @@ class MoviesApi(Resource):
 
 
 class MovieApi(Resource):
+    """MovieApi Api method to retrieve a movie by id .
+
+    Args:
+        Resource ([type]): [description]
+
+    Raises:
+        SchemaValidationError: [description]
+        UpdatingMovieError: [description]
+        UpdatingMovieError: [description]
+        InternalServerError: [description]
+        DeletingMovieError: [description]
+        InternalServerError: [description]
+        MovieNotExistsError: [description]
+        InternalServerError: [description]
+
+    Returns:
+        [type]: [description]
+    """
     @jwt_required()
     def put(self, id):
         try:

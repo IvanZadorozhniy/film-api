@@ -12,6 +12,11 @@ from resources.error import (EmailDoesnotExistsError,
 
 
 class ForgotPassword(Resource):
+    """ForgotPassword Forgot password .
+
+    Args:
+        Resource ([type]): [description]
+    """
     def post(self):
         url = request.host_url + 'api/auth/reset/'
         body = request.get_json()
@@ -36,6 +41,11 @@ class ForgotPassword(Resource):
 
 
 class ResetPassword(Resource):
+    """ResetPassword Reset the password .
+
+    Args:
+        Resource ([type]): [description]
+    """
     def post(self):
 
         body = request.get_json()

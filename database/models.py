@@ -1,5 +1,6 @@
 from .db import db
 from flask_bcrypt import generate_password_hash, check_password_hash
+from email_validator import validate_email, EmailNotValidError
 # FilmGenre = db.Table('FilmGenre', db.Model.metadata,
 #                      db.Column('film_id', db.ForeignKey('film.id')),
 #                      db.Column('genre_id', db.ForeignKey('genre.id'))
@@ -25,15 +26,32 @@ class User(db.Model):
         self.password = password
         self.email = email
 
+    def serialize(self):
+
+        return {"id": self.id,
+                "email": self.email,
+                "films": self.films
+                }
 #     def __repr__(self):
 #         return '{} {} {} {}'.format(self.id, self.username, self.email, self.api_key)
+
     def hash_password(self):
         self.password = generate_password_hash(self.password).decode('utf8')
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
+    def check_valid_email(self):
+        try:
+            # Validate.
+            valid = validate_email(self.email)
 
+            # Update with the normalized form.
+            self.email = valid.email
+            return True
+        except EmailNotValidError as e:
+            print(str(e))
+            return False 
 class Film(db.Model):
     __tablename__ = 'film'
     id = db.Column(db.Integer, primary_key=True)
