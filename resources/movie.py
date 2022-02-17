@@ -71,7 +71,7 @@ class MovieApi(Resource):
     def put(self, id):
         try:
             body = request.get_json()
-            film = Film.query.get(id)
+            film = Film.get_by_id(id)
             film.title = body['title'] if 'title' in body else film.title
             film.date = datetime.strptime(
                 body['date'], '%d.%m.%Y') if 'date' in body else film.date
