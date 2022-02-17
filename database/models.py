@@ -52,27 +52,44 @@ class User(db.Model):
         except EmailNotValidError as e:
             print(str(e))
             return False 
+    
+    # @classmethod
+    # def get_by_username(cls, username):
+    #     return cls.query.filter_by(username=username).first()
+
+    @classmethod
+    def get_by_email(cls, email):
+        return cls.query.filter_by(email=email).first()
+
+    @classmethod
+    def get_by_id(cls, id):
+        return cls.query.filter_by(id=id).first()
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+        
 class Film(db.Model):
     __tablename__ = 'film'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
     date = db.Column(db.Date)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-
-    def to_json(self):
-        json_student = {
-            'id': str(self.id),
-            'title': str(self.title),
-            'date': str(self.date),
-            'user_id': str(self.user_id)
-        }
-
-        return json_student
-
     # describe = db.Column(db.Text)
     # rating = db.Column(db.Float)
     # poster_path = db.Column(db.String)
-        # genre = db.relationship('Genre', secondary=FilmGenre)
+    # genre = db.relationship('Genre', secondary=FilmGenre)
+
+    @classmethod
+    def get_by_id(cls, id):
+        return cls.query.filter_by(id=id).first()
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+    
+
+    
 
 
 # class Genre(db.Model):
