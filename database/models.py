@@ -25,6 +25,7 @@ class User(db.Model):
         # self.username = username
         self.password = password
         self.email = email
+        self.hash_password()
 
     def serialize(self):
 
@@ -79,7 +80,13 @@ class Film(db.Model):
     # rating = db.Column(db.Float)
     # poster_path = db.Column(db.String)
     # genre = db.relationship('Genre', secondary=FilmGenre)
-
+    def data(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'date': str(self.date),
+            'user_id': self.user_id
+        }
     @classmethod
     def get_by_id(cls, id):
         return cls.query.filter_by(id=id).first()

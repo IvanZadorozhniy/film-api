@@ -5,6 +5,7 @@ from database.db import db_session
 from flask_jwt_extended import create_access_token
 import datetime
 
+
 class SignupApi(Resource):
 
     def post(self):
@@ -14,13 +15,11 @@ class SignupApi(Resource):
             [type]: [description]
         """
         body = request.get_json()
-        
+
         user = User(**body)
         if not user.check_valid_email():
             return {"error": "Email is not valie"}, 400
-        user.hash_password()
-        db_session.add(user)
-        db_session.commit()
+        user.save()
         db_session.flush()
         id_ = user.id
         return {'id': str(id_)}, 200
@@ -32,9 +31,10 @@ class LoginApi(Resource):
     Args:
         Resource ([type]): [description]
     """
+
     def post(self):
         body = request.get_json()
-        user = User.query.filter(User.email.like(body.get('email'))).first()
+        user = User.get_by_email(body['email'])
         authorized = user.check_password(body.get('password'))
         if not authorized:
             return {'error': 'Email or password invalid'}, 401
@@ -43,5 +43,3 @@ class LoginApi(Resource):
         access_token = create_access_token(
             identity=str(user.id), expires_delta=expires)
         return {'token': access_token}, 200
-
-   

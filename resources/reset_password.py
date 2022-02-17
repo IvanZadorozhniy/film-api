@@ -24,7 +24,7 @@ class ForgotPassword(Resource):
         if not email:
             raise SchemaValidationError
 
-        user = User.query.filter_by(email=email).first()
+        user = User.get_by_email(email)
         if not user:
             raise EmailDoesnotExistsError
 
@@ -56,7 +56,7 @@ class ResetPassword(Resource):
             raise SchemaValidationError
 
         user_id = decode_token(reset_token)['sub']
-        user = User.query.get(user_id)
+        user = User.get_by_id(user_id)
 
         user.password = password
         user.hash_password()

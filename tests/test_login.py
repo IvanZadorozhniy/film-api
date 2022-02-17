@@ -19,9 +19,7 @@ class LoginTest(unittest.TestCase):
             db.create_all()
             
             user = User(email=USER_MAIL, password=USER_PASS)
-            user.hash_password()
-            db.session.add(user)
-            db.session.commit()
+            user.save()
         self.app = app.test_client()
         
         

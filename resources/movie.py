@@ -20,9 +20,8 @@ class MoviesApi(Resource):
     """
     def get(self):
         movies = Film.query.all()
-        movies = list(map(lambda x: x.to_json(), movies))
-        print(movies)
-        return make_response(jsonify(movies), 200)
+        movies = list(map(lambda x: x.data(), movies))
+        return {'movies':movies}, 200
 
     @jwt_required()
     def post(self):
